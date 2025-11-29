@@ -34,7 +34,7 @@ import {
 import { useState } from "react";
 import { Doughnut, Line } from "react-chartjs-2";
 import { useNavigate } from "react-router";
-import Layout from "../components/Layout";
+import Layout from "@/components/Layout";
 
 ChartJS.register(
   ArcElement,

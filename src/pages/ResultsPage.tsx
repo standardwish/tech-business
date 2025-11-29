@@ -27,8 +27,8 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import AccountingTermTooltip from "../components/AccountingTermTooltip";
-import Layout from "../components/Layout";
+import AccountingTermTooltip from "@/components/AccountingTermTooltip";
+import Layout from "@/components/Layout";
 
 interface TabPanelProps {
   children?: React.ReactNode;

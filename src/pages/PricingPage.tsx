@@ -14,8 +14,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router";
-import Layout from "../components/Layout";
-import { BRAND } from "../constants/brand";
+import Layout from "@/components/Layout";
+import { BRAND } from "@/constants/brand";
 
 export default function PricingPage() {
   const navigate = useNavigate();

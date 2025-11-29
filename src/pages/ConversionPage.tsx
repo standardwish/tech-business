@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import Layout from "../components/Layout";
+import Layout from "@/components/Layout";
 
 const steps = [
   "파일 업로드",
