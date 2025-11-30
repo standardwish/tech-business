@@ -16,6 +16,8 @@ import {
 import { useNavigate } from "react-router";
 import Layout from "@/components/Layout";
 import { BRAND } from "@/constants/brand";
+import AppTheme from "@/theme/shared-theme/AppTheme";
+import CssBaseline from "@mui/material/CssBaseline";
 
 export default function PricingPage() {
   const navigate = useNavigate();
@@ -78,8 +80,10 @@ export default function PricingPage() {
   ];
 
   return (
-    <Layout>
-      <Box
+    <AppTheme>
+      <CssBaseline enableColorScheme />
+      <Layout>
+        <Box
         sx={{
           bgcolor: "primary.main",
           color: "white",
@@ -273,5 +277,6 @@ export default function PricingPage() {
         </Box>
       </Container>
     </Layout>
+    </AppTheme>
   );
 }

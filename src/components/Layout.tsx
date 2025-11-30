@@ -1,120 +1,168 @@
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import Logo from "@/components/Logo";
+import { BRAND } from "@/constants/brand";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import MenuIcon from "@mui/icons-material/Menu";
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import MenuItem from "@mui/material/MenuItem";
+import { alpha, styled } from "@mui/material/styles";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { BRAND } from "../constants/brand";
+
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  flexShrink: 0,
+  borderRadius: `calc(${theme.shape.borderRadius}px + 8px)`,
+  backdropFilter: "blur(24px)",
+  border: "1px solid",
+  borderColor: (theme.vars || theme).palette.divider,
+  backgroundColor: theme.vars
+    ? `rgba(${theme.vars.palette.background.defaultChannel} / 0.4)`
+    : alpha(theme.palette.background.default, 0.4),
+  boxShadow: (theme.vars || theme).shadows[1],
+  padding: "8px 12px",
+}));
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
   };
-
-  const menuItems = [
-    { label: "홈", path: "/" },
-    { label: "대시보드", path: "/dashboard" },
-    { label: "새 변환", path: "/conversion" },
-    { label: "요금제", path: "/pricing" },
-  ];
-
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        {BRAND.APP_NAME_KR}
-      </Typography>
-      <List>
-        {menuItems.map((item) => (
-          <ListItem key={item.label} disablePadding>
-            <ListItemButton
-              sx={{ textAlign: "center" }}
-              onClick={() => navigate(item.path)}
-            >
-              <ListItemText primary={item.label} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <AppBar position="static" elevation={1}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { md: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
-
-          <AccountBalanceIcon sx={{ mr: 1 }} />
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, cursor: "pointer" }}
-            onClick={() => navigate("/")}
-          >
-            {BRAND.APP_NAME_KR}
-          </Typography>
-
-          <Box sx={{ display: { xs: "none", md: "block" } }}>
-            {menuItems.map((item) => (
-              <Button
-                key={item.label}
-                color="inherit"
-                onClick={() => navigate(item.path)}
-              >
-                {item.label}
-              </Button>
-            ))}
-            <Button color="inherit" variant="outlined" sx={{ ml: 2 }}>
-              로그인
-            </Button>
-          </Box>
-        </Toolbar>
-      </AppBar>
-
-      <Drawer
-        variant="temporary"
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true,
-        }}
+      <AppBar
+        position="fixed"
         sx={{
-          display: { xs: "block", md: "none" },
-          "& .MuiDrawer-paper": { boxSizing: "border-box", width: 240 },
+          boxShadow: 0,
+          bgcolor: "transparent",
+          backgroundImage: "none",
+          mt: 2,
         }}
       >
-        {drawer}
-      </Drawer>
+        <Container maxWidth="lg">
+          <StyledToolbar variant="dense" disableGutters>
+            <Box
+              sx={{ flexGrow: 1, display: "flex", alignItems: "center", px: 0 }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  cursor: "pointer",
+                }}
+                onClick={() => navigate("/")}
+              >
+                <Logo sx={{ fontSize: 36 }} />
+                <Typography
+                  variant="subtitle2"
+                  fontWeight="bold"
+                  color="primary.main"
+                >
+                  {BRAND.APP_NAME}
+                </Typography>
+              </Box>
+              <Box sx={{ display: { xs: "none", md: "flex" }, ml: 2 }}>
+                <Button
+                  variant="text"
+                  color="info"
+                  size="small"
+                  onClick={() => navigate("/dashboard")}
+                >
+                  대시보드
+                </Button>
+              </Box>
+            </Box>
+            <Box sx={{ display: { xs: "flex", md: "none" }, gap: 1 }}>
+              <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
+                <MenuIcon />
+              </IconButton>
+              <Drawer anchor="top" open={open} onClose={toggleDrawer(false)}>
+                <Box sx={{ p: 2, backgroundColor: "background.default" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <IconButton onClick={toggleDrawer(false)}>
+                      <CloseRoundedIcon />
+                    </IconButton>
+                  </Box>
 
-      <Box component="main" sx={{ flexGrow: 1 }}>
+                  <MenuItem
+                    onClick={() => {
+                      navigate("/");
+                      toggleDrawer(false)();
+                    }}
+                  >
+                    홈
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      navigate("/dashboard");
+                      toggleDrawer(false)();
+                    }}
+                  >
+                    대시보드
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      navigate("/conversion");
+                      toggleDrawer(false)();
+                    }}
+                  >
+                    새 변환
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      navigate("/pricing");
+                      toggleDrawer(false)();
+                    }}
+                  >
+                    요금제
+                  </MenuItem>
+                  <Divider sx={{ my: 3 }} />
+                  <MenuItem>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      fullWidth
+                      onClick={() => navigate("/conversion")}
+                    >
+                      시작하기
+                    </Button>
+                  </MenuItem>
+                  <MenuItem>
+                    <Button color="primary" variant="outlined" fullWidth>
+                      로그인
+                    </Button>
+                  </MenuItem>
+                </Box>
+              </Drawer>
+            </Box>
+          </StyledToolbar>
+        </Container>
+      </AppBar>
+
+      <Box component="main" sx={{ flexGrow: 1, pt: 10 }}>
         {children}
       </Box>
 

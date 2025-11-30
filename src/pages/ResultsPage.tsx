@@ -29,6 +29,8 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import AccountingTermTooltip from "@/components/AccountingTermTooltip";
 import Layout from "@/components/Layout";
+import AppTheme from "@/theme/shared-theme/AppTheme";
+import CssBaseline from "@mui/material/CssBaseline";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -112,8 +114,10 @@ export default function ResultsPage() {
   ];
 
   return (
-    <Layout>
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+    <AppTheme>
+      <CssBaseline enableColorScheme />
+      <Layout>
+        <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box sx={{ mb: 4 }}>
           <Typography variant="h4" fontWeight="bold" gutterBottom>
             전환 결과 - 프로젝트 #{id}
@@ -402,5 +406,6 @@ export default function ResultsPage() {
         </TabPanel>
       </Container>
     </Layout>
+    </AppTheme>
   );
 }

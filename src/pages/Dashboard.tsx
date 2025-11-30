@@ -35,6 +35,8 @@ import { useState } from "react";
 import { Doughnut, Line } from "react-chartjs-2";
 import { useNavigate } from "react-router";
 import Layout from "@/components/Layout";
+import AppTheme from "@/theme/shared-theme/AppTheme";
+import CssBaseline from "@mui/material/CssBaseline";
 
 ChartJS.register(
   ArcElement,
@@ -146,8 +148,10 @@ export default function Dashboard() {
   };
 
   return (
-    <Layout>
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+    <AppTheme>
+      <CssBaseline enableColorScheme />
+      <Layout>
+        <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box
           sx={{
             display: "flex",
@@ -439,5 +443,6 @@ export default function Dashboard() {
         </Card>
       </Container>
     </Layout>
+    </AppTheme>
   );
 }

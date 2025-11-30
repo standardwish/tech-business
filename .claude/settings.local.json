@@ -7,7 +7,12 @@
       "Bash(mkdir:*)",
       "Bash(cat:*)",
       "Bash(rm:*)",
-      "Bash(pnpm lint:*)"
+      "Bash(pnpm lint:*)",
+      "Bash(npm install:*)",
+      "Bash(pnpm install:*)",
+      "Bash(npx tsc -b)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm build:*)"
     ],
     "deny": [],
     "ask": []
