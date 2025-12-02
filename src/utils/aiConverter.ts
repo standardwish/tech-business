@@ -107,7 +107,7 @@ ${text}
 반드시 JSON 형식으로만 반환해주세요.`;
 
   const completion = await openai.chat.completions.create({
-    model: "gpt-4o",
+    model: "gpt-5-mini",
     messages: [
       {
         role: "system",
@@ -178,7 +178,7 @@ ${JSON.stringify(mappingContext, null, 2)}
 반드시 JSON 형식으로만 응답해주세요.`;
 
   const completion = await openai.chat.completions.create({
-    model: "gpt-4o",
+    model: "gpt-5-mini",
     messages: [
       {
         role: "system",
@@ -253,7 +253,7 @@ ${JSON.stringify(details, null, 2)}
 반드시 JSON 형식으로만 응답해주세요.`;
 
   const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
+    model: "gpt-5-mini",
     messages: [
       {
         role: "system",
@@ -350,7 +350,7 @@ ${JSON.stringify(details, null, 2)}
 한국어로 작성하고, 회계 보고서 형식을 따라주세요.`;
 
   const completion = await openai.chat.completions.create({
-    model: "gpt-4o",
+    model: "gpt-5-mini",
     messages: [
       {
         role: "system",

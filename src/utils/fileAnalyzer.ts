@@ -1,5 +1,5 @@
-import OpenAI from "openai";
 import { AccountingStandard, ExtractedAccount } from "@/types/accounting";
+import OpenAI from "openai";
 
 // OpenAI 클라이언트 초기화
 const getOpenAIClient = () => {
@@ -97,13 +97,21 @@ ${JSON.stringify(accounts, null, 2)}
   }
 }
 
-${targetStandard === "US-GAAP" ? "US-GAAP은 재평가모형을 허용하지 않으므로 재평가 관련 항목이 있다면 반드시 suggestedItems에 '재평가잉여금 제거'를 포함해주세요." : ""}
-${targetStandard === "IFRS" || targetStandard === "US-GAAP" ? "IFRS 16 리스 기준을 고려하여 사용권자산과 리스부채가 필요한지 확인해주세요." : ""}
+${
+  targetStandard === "US-GAAP"
+    ? "US-GAAP은 재평가모형을 허용하지 않으므로 재평가 관련 항목이 있다면 반드시 suggestedItems에 '재평가잉여금 제거'를 포함해주세요."
+    : ""
+}
+${
+  targetStandard === "IFRS" || targetStandard === "US-GAAP"
+    ? "IFRS 16 리스 기준을 고려하여 사용권자산과 리스부채가 필요한지 확인해주세요."
+    : ""
+}
 
 반드시 JSON 형식으로만 응답해주세요.`;
 
   const completion = await openai.chat.completions.create({
-    model: "gpt-4o",
+    model: "gpt-5-mini",
     messages: [
       {
         role: "system",

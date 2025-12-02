@@ -11,22 +11,32 @@ import {
   FormGroup,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
   Typography,
 } from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
-import { ConversionDetails } from "@/types/accounting";
+import { ConversionDetails, ExtractedAccount } from "@/types/accounting";
 
 interface Step3Props {
   selectedItems: string[];
+  extractedAccounts: ExtractedAccount[];
   onNext: (details: ConversionDetails) => void;
   onBack: () => void;
 }
 
 export default function Step3Details({
   selectedItems,
+  extractedAccounts,
   onNext,
   onBack,
 }: Step3Props) {
@@ -42,18 +52,64 @@ export default function Step3Details({
     onNext(details);
   };
 
+  // 계정 데이터를 포맷팅
+  const formatAmount = (amount: number) => {
+    return new Intl.NumberFormat("ko-KR").format(amount);
+  };
+
   return (
     <Box>
       <Typography variant="h5" fontWeight="bold" gutterBottom>
-        세부 정보 입력
+        세부 정보 확인
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-        선택한 각 항목에 대한 세부 정보를 입력해주세요.
+        추출된 계정 정보를 확인하고, 필요시 추가 정보를 입력해주세요.
       </Typography>
 
+      {/* 추출된 계정 목록 표시 */}
+      <Paper
+        elevation={0}
+        sx={{ p: 3, border: "1px solid", borderColor: "divider", mb: 3 }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+          <CheckCircleIcon color="success" />
+          <Typography variant="h6" fontWeight="bold">
+            추출된 계정 정보 ({extractedAccounts.length}개)
+          </Typography>
+        </Box>
+
+        <TableContainer>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>계정코드</TableCell>
+                <TableCell>계정명</TableCell>
+                <TableCell align="right">금액</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {extractedAccounts.slice(0, 20).map((account, index) => (
+                <TableRow key={index}>
+                  <TableCell>{account.accountCode || "-"}</TableCell>
+                  <TableCell>{account.accountName}</TableCell>
+                  <TableCell align="right">{formatAmount(account.amount)}</TableCell>
+                </TableRow>
+              ))}
+              {extractedAccounts.length > 20 && (
+                <TableRow>
+                  <TableCell colSpan={3} align="center" sx={{ color: "text.secondary" }}>
+                    외 {extractedAccounts.length - 20}개 항목
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+
+      {/* 추가 정보 입력 (필요시) */}
       <Alert severity="info" sx={{ mb: 3 }}>
-        각 항목을 클릭하여 필요한 정보를 입력하세요. 필수 항목은 반드시 입력해야
-        합니다.
+        변환에 필요한 추가 정보가 있다면 아래 항목을 클릭하여 입력하세요.
       </Alert>
 
       {/* 자산평가 */}

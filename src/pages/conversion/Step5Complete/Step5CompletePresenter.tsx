@@ -19,51 +19,30 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import { useNavigate } from "react-router";
 import { ConversionResult } from "@/types/accounting";
-import { exportFinancialStatement } from "@/utils/pdfExporter";
-import { useState } from "react";
 
-interface Step5Props {
+interface Step5CompletePresenterProps {
   result: ConversionResult;
+  pdfMenuAnchorEl: HTMLElement | null;
+  onViewResults: () => void;
+  onDownloadReport: () => void;
+  onPDFMenuOpen: (event: React.MouseEvent<HTMLElement>) => void;
+  onPDFMenuClose: () => void;
+  onExportPDF: (format: 'ifrs-income' | 'ifrs-balance' | 'usgaap-income' | 'business-plan') => void;
+  onBackToDashboard: () => void;
 }
 
-export default function Step5Complete({ result }: Step5Props) {
-  const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const pdfMenuOpen = Boolean(anchorEl);
-
-  const handleViewResults = () => {
-    // 결과를 로컬 스토리지에 저장
-    localStorage.setItem("latestConversionResult", JSON.stringify(result));
-    navigate("/results/latest");
-  };
-
-  const handleDownloadReport = () => {
-    // 보고서 다운로드 로직 (향후 구현)
-    alert("보고서 다운로드 기능은 곧 추가됩니다.");
-  };
-
-  const handlePDFMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePDFMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleExportPDF = (format: 'ifrs-income' | 'ifrs-balance' | 'usgaap-income' | 'business-plan') => {
-    const companyName = prompt('회사명을 입력하세요:', '(주)회사명') || '회사명';
-    const baseDate = new Date().toISOString().split('T')[0];
-
-    try {
-      exportFinancialStatement(result, format, companyName, baseDate);
-      handlePDFMenuClose();
-    } catch (error) {
-      console.error('PDF 내보내기 오류:', error);
-      alert(`PDF 내보내기 중 오류가 발생했습니다: ${error}`);
-    }
-  };
+export default function Step5CompletePresenter({
+  result,
+  pdfMenuAnchorEl,
+  onViewResults,
+  onDownloadReport,
+  onPDFMenuOpen,
+  onPDFMenuClose,
+  onExportPDF,
+  onBackToDashboard,
+}: Step5CompletePresenterProps) {
+  const pdfMenuOpen = Boolean(pdfMenuAnchorEl);
 
   return (
     <Box>
@@ -79,7 +58,6 @@ export default function Step5Complete({ result }: Step5Props) {
         </Typography>
       </Box>
 
-      {/* 변환 요약 */}
       <Card sx={{ mb: 3 }}>
         <CardContent>
           <Typography variant="h6" fontWeight="bold" gutterBottom>
@@ -114,7 +92,6 @@ export default function Step5Complete({ result }: Step5Props) {
         </CardContent>
       </Card>
 
-      {/* 주요 조정 항목 */}
       {result.adjustments.length > 0 && (
         <Card sx={{ mb: 3 }}>
           <CardContent>
@@ -164,7 +141,6 @@ export default function Step5Complete({ result }: Step5Props) {
         </Card>
       )}
 
-      {/* 주요 변환 계정 미리보기 */}
       <Card sx={{ mb: 3 }}>
         <CardContent>
           <Typography variant="h6" fontWeight="bold" gutterBottom>
@@ -226,7 +202,6 @@ export default function Step5Complete({ result }: Step5Props) {
         </CardContent>
       </Card>
 
-      {/* 액션 버튼 */}
       <Box
         sx={{
           display: "flex",
@@ -239,7 +214,7 @@ export default function Step5Complete({ result }: Step5Props) {
           variant="contained"
           size="large"
           startIcon={<VisibilityIcon />}
-          onClick={handleViewResults}
+          onClick={onViewResults}
         >
           전체 결과 보기
         </Button>
@@ -248,25 +223,25 @@ export default function Step5Complete({ result }: Step5Props) {
           size="large"
           color="success"
           startIcon={<PictureAsPdfIcon />}
-          onClick={handlePDFMenuOpen}
+          onClick={onPDFMenuOpen}
         >
           PDF 내보내기
         </Button>
         <Menu
-          anchorEl={anchorEl}
+          anchorEl={pdfMenuAnchorEl}
           open={pdfMenuOpen}
-          onClose={handlePDFMenuClose}
+          onClose={onPDFMenuClose}
         >
-          <MenuItem onClick={() => handleExportPDF('ifrs-income')}>
+          <MenuItem onClick={() => onExportPDF('ifrs-income')}>
             📊 IFRS 손익계산서
           </MenuItem>
-          <MenuItem onClick={() => handleExportPDF('ifrs-balance')}>
+          <MenuItem onClick={() => onExportPDF('ifrs-balance')}>
             📈 IFRS 재무상태표 (대차대조표)
           </MenuItem>
-          <MenuItem onClick={() => handleExportPDF('usgaap-income')}>
+          <MenuItem onClick={() => onExportPDF('usgaap-income')}>
             🇺🇸 US-GAAP 손익계산서
           </MenuItem>
-          <MenuItem onClick={() => handleExportPDF('business-plan')}>
+          <MenuItem onClick={() => onExportPDF('business-plan')}>
             📋 사업계획 워크북
           </MenuItem>
         </Menu>
@@ -274,14 +249,14 @@ export default function Step5Complete({ result }: Step5Props) {
           variant="outlined"
           size="large"
           startIcon={<DownloadIcon />}
-          onClick={handleDownloadReport}
+          onClick={onDownloadReport}
         >
           보고서 다운로드
         </Button>
       </Box>
 
       <Box sx={{ textAlign: "center", mt: 4 }}>
-        <Button onClick={() => navigate("/dashboard")}>
+        <Button onClick={onBackToDashboard}>
           대시보드로 돌아가기
         </Button>
       </Box>

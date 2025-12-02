@@ -54,7 +54,7 @@ export default function Hero() {
         width: "100%",
         backgroundRepeat: "no-repeat",
         backgroundImage:
-          "radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 90%), transparent)",
+          "radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 60%), transparent)",
         ...theme.applyStyles("dark", {
           backgroundImage:
             "radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 16%), transparent)",
@@ -151,7 +151,7 @@ export default function Hero() {
             <Link href="#" color="primary">
               이용약관
             </Link>
-            에 동의하는 것입니다.
+            에 자동으로 동의하게 됩니다.
           </Typography>
         </Stack>
         <StyledBox id="image" />
