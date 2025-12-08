@@ -5,8 +5,8 @@
 
 export const BRAND = {
   // 제품명
-  APP_NAME: "GAPPI",
-  APP_NAME_KR: "GAPPI",
+  APP_NAME: "GTF",
+  APP_NAME_KR: "GTF",
 
   // 태그라인
   TAGLINE: "K-GAAP에서 IFRS로의 스마트 전환 솔루션",
@@ -16,14 +16,14 @@ export const BRAND = {
   DESCRIPTION: "중소기업을 위한 K-GAAP에서 IFRS로의 스마트 전환 솔루션",
 
   // 회사 정보
-  COMPANY_NAME: "GAPPI",
+  COMPANY_NAME: "GTF",
   COPYRIGHT_YEAR: "2025",
 
   // URL
-  DOMAIN: "gappi.io",
+  DOMAIN: "gtf.io",
 
   // 연락처
-  SUPPORT_EMAIL: "support@gappi.io",
+  SUPPORT_EMAIL: "support@gtf.io",
 
   // 소셜 미디어 (필요시 추가)
   // GITHUB: '',
